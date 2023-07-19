@@ -9,6 +9,10 @@
     <button type="submit">Supprimer</button>
   </form>
 
+  <div v-if="data!=null">
+      <p>{{ data.resultat }}</p>
+  </div>
+
 </template>
 
 
@@ -21,8 +25,7 @@
 
 
 <script>
-// import axios from "axios"
-// import {parse, stringify} from "qs";
+import axios from "axios";
 
 export default {
 
@@ -34,7 +37,8 @@ export default {
     return{
       data: null,
       titre:'Supprimer un Elève',
-      id:null
+      id:null,
+      resultat:null
     };
   },
 
@@ -46,19 +50,15 @@ export default {
       console.log(
           "id : "+ this.id,
       );
-      // AJOUT DE L'API AXIOS :
-      /*
-      axios.post('/api/crud-delete-one/', {params:this.id, paramsSerializer: {
-          encode: parse,
-          serialize: stringify,}})
+      axios.get('/api/crud-delete-one/'+this.id)
           .then(response => {
             console.log(response);
+            this.resultat = response;
           })
           .catch(error => {
             // Gestion des erreurs
             console.error(error);
           });
-       */
     }
   }
 }

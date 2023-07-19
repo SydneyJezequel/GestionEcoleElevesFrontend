@@ -22,7 +22,6 @@
 
 <script>
 import axios from "axios"
-import {parse, stringify} from "qs";
 
 export default {
 
@@ -44,6 +43,19 @@ export default {
     submitForm(event) {
       event.preventDefault();
       console.log("id : "+ this.id);
+      axios.get('/api/crud-get-one/'+this.id)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            // Gestion des erreurs
+            console.error(error);
+          });
+    }
+    /*
+    submitForm(event) {
+      event.preventDefault();
+      console.log("id : "+ this.id);
       axios.get('/api/crud-get-one/', {params:this.id, paramsSerializer: {
           encode: parse,
           serialize: stringify,}})
@@ -55,6 +67,7 @@ export default {
             console.error(error);
           });
     }
+    */
   }
 
 

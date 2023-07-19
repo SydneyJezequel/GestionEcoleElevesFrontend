@@ -40,6 +40,8 @@
 // import axios from "axios";
 // import {parse, stringify} from "qs";
 
+import axios from "axios";
+
 export default {
   name: "ModifierUnEleve",
 
@@ -64,12 +66,38 @@ export default {
     submitForm(event) {
       event.preventDefault();
       console.log(
-          "id : "+ this.id,
-          "classe: "+ this.classe,
+          "id : "+ this.no_eleve,
+          "maison: "+ this.maison,
           "date_naissance:" + this.date_naissance,
+          "annee:" + this.annee,
           "nom:" + this.nom,
           "prenom:"+ this.prenom
       );
+      let eleve = {};
+      {
+        eleve.no_eleve = this.no_eleve,
+        eleve.maison = this.maison,
+        eleve.annee = this.annee,
+        eleve.date_naissance = this.date_naissance,
+        eleve.nom = this.nom,
+        eleve.prenom = this.prenom
+      }
+      console.log("eleve : "
+      +eleve.no_eleve
+      +eleve.maison
+      +eleve.annee
+      +eleve.date_naissance
+      +eleve.nom
+      +eleve.prenom
+      );
+      axios.put('/api/crud-update-one/'+eleve)
+          .then(response => {
+            console.log(response);
+          })
+          .catch(error => {
+            // Gestion des erreurs
+            console.error(error);
+          });
       // AJOUT DE L'API AXIOS :
       /*
       axios.post('/api/crud-create-one/', {params:this.id, paramsSerializer: {

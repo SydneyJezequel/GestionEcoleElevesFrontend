@@ -2,13 +2,16 @@
   <h2>{{titre}}</h2>
   <button @click="getAll">getAll</button>
   <br>
-  <div v-if="data">
-    <div v-for="eleve in data" :key="eleve.id">
-      <p>{{ eleve }}</p>
-      <p>{{ eleve.nom }}</p>
-      <p>{{ eleve.prenom }}</p>
-      <p>{{ eleve.dateNaissance }}</p>
-      <p>{{ eleve.classe }}</p>
+  <div v-if="data!=null">
+    <div v-for="item in data" v-bind:key="item.id">
+      <p>{{ item }}</p>
+      <p>{{ item.id }}</p>
+      <p>{{ item.nom }}</p>
+      <p>{{ item.prenom }}</p>
+      <p>{{ item.maison }}</p>
+      <p>{{ item.annee }}</p>
+      <button @click="afficherUpdate">Modifier</button>
+      <button @click="afficherSupprimer">Supprimer</button>
     </div>
   </div>
 </template>
@@ -22,6 +25,7 @@
 
 <script>
 import axios from "axios"
+import router from "@/router";
 
 export default {
   name: 'AccueilAppli',
@@ -53,6 +57,18 @@ export default {
       .catch(error =>{
         console.log(error);
       })
+    },
+
+    // Routage vers la page de modification :
+    afficherUpdate:function()
+    {
+      router.push({ name: 'update_un_eleve' });
+    },
+
+    // Routage vers la page de suppression :
+    afficherSupprimer:function()
+    {
+      router.push({ name: 'delete_un_eleve' });
     }
   }
 
