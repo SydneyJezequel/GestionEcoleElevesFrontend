@@ -2,29 +2,48 @@
   <h2>{{titre}}</h2>
 
   <form @submit="submitForm" method="post">
-    <div>
-      <label for="maison">maison :</label>
-      <input type="text" id="maison" v-model="maison" required>
-    </div>
+    <!-- ************** LISTE DEROULANTE DYNAMIQUE ************** -->
+    <!--
+        <label for="maison">Test liste maison :</label>
+        <select v-model="eleve.maisonChoisie">
+          <option v-for="option in options" v-bind:key="option.value">
+            {{ option.text }}
+          </option>
+        </select>
+    <br>
+    -->
+    <!-- ************** LISTE DEROULANTE DYNAMIQUE ************** -->
+
+    <label for="maison">liste maison :</label>
+    <select v-model="eleve.maison">
+      <option v-for="option in options1" v-bind:key="option.value">
+        {{ option.text }}
+      </option>
+    </select>
     <div>
       <label for="annee">annee :</label>
-      <input type="number" id="annee" v-model="annee" required>
+      <input type="number" id="annee" v-model="eleve.annee" required>
     </div>
     <div>
       <label for="date_naissance">date de naissance :</label>
-      <input type="date" id="date_naissance" v-model="date_naissance" required>
+      <input type="date" id="date_naissance" v-model="eleve.dateNaissance" required>
     </div>
     <div>
       <label for="nom">Nom :</label>
-      <input type="text" id="nom" v-model="nom" required>
+      <input type="text" id="nom" v-model="eleve.nom" required>
     </div>
     <div>
       <label for="prenom">Prénom :</label>
-      <input type="text" id="prenom" v-model="prenom" required>
+      <input type="text" id="prenom" v-model="eleve.prenom" required>
     </div>
     <button type="submit">Enregistrer</button>
   </form>
 </template>
+
+
+
+
+
 
 <script>
 // import axios from "axios";
@@ -39,60 +58,62 @@ export default {
   data(){
     return{
       data: null,
-      // Attributs du formulaires :
-      titre:'Créer un Elève',
-      maison: null,
-      annee: null,
-      date_naissance: null,
-      nom:null,
-      prenom:null,
-    };
-  },
+        titre:'Créer un Elève',
+        eleve:{
 
+           annee: null,
+           dateNaissance: null,
+           nom: null,
+           prenom: null,
+           maison: null,
+      },
+      // Liste non dynamique temporaire :
+      options1: [{text:'Gryfondor', value:'1'},{text:'Serdaigle', value:'2'},{text:'Poufsoufle', value:'3'},{text:'Serpentard', value:'4'}],
+      // ********************** Liste dynamique : Non fonctionnelle **********************
+      options:
+        axios.get('api/crud-get-maisons')
+        .then(response => {
+          console.log("response.data : "+response.data);
+          let arrayMaison;
+          arrayMaison = response.data;
+          console.log("variable arrayMaison : "+arrayMaison);
+          return arrayMaison;
+        })
+        .catch(error => {
+          // Gestion des erreurs
+          console.error(error);
+        }),
+      // ********************** Liste dynamique : Non fonctionnelle **********************
+  };
+},
 
-  // Méthodes :
-  methods:{
-    submitForm(event) {
-      event.preventDefault();
-      console.log(
-          "id : "+ this.no_eleve,
-          "maison: "+ this.maison,
-          "date_naissance:" + this.date_naissance,
-          "annee:" + this.annee,
-          "nom:" + this.nom,
-          "prenom:"+ this.prenom
-      );
-      let eleve = {};
-      {
-        eleve.no_eleve = this.no_eleve,
-            eleve.maison = this.maison,
-            eleve.annee = this.annee,
-            eleve.date_naissance = this.date_naissance,
-            eleve.nom = this.nom,
-            eleve.prenom = this.prenom
-      }
-      console.log("eleve : "
-          +eleve.no_eleve
-          +eleve.maison
-          +eleve.annee
-          +eleve.date_naissance
-          +eleve.nom
-          +eleve.prenom
-      );
-      axios.post('/api/crud-create-one/'+eleve)
+// Méthodes :
+methods: {
+  submitForm(event) {
+    event.preventDefault();
+    // *********************** Contrôle :  ***********************
+    console.log(this.eleve);
+    // *********************** Contrôle :  ***********************
+    axios.post('/api/crud-create-one', this.eleve)
           .then(response => {
             console.log(response);
-          })
+        })
           .catch(error => {
             // Gestion des erreurs
             console.error(error);
-          });
-    }
+        });
+    },
   }
 
 
 
+
 }
+
+
+
+
+
 </script>
 
 <style scoped>

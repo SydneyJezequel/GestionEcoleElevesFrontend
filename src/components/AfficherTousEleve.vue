@@ -2,17 +2,28 @@
   <h2>{{titre}}</h2>
   <button @click="getAll">getAll</button>
   <br>
-  <div v-if="data!=null">
-    <div v-for="item in data" v-bind:key="item.id">
-      <p>{{ item }}</p>
-      <p>{{ item.id }}</p>
-      <p>{{ item.nom }}</p>
-      <p>{{ item.prenom }}</p>
-      <p>{{ item.maison }}</p>
-      <p>{{ item.annee }}</p>
-      <button @click="afficherUpdate">Modifier</button>
-      <button @click="afficherSupprimer">Supprimer</button>
-    </div>
+  <div v-if="this.data!=null" class="table-container">
+    <table>
+      <tr>
+        <th>No Eleve</th>
+        <th>Nom</th>
+        <th>Prenom</th>
+        <th>Maison</th>
+        <th>Annee</th>
+        <th>Actions</th>
+      </tr>
+      <tr v-for="item in data" v-bind:key="item.no_eleve">
+        <td>{{ item.no_eleve }}</td>
+        <td>{{ item.nom }}</td>
+        <td>{{ item.prenom }}</td>
+        <td>{{ item.maison }}</td>
+        <td>{{ item.annee }}</td>
+        <td>
+          <button @click="afficherUpdate">Modifier</button>
+          <button @click="afficherSupprimer">Supprimer</button>
+        </td>
+      </tr>
+    </table>
   </div>
 </template>
 
@@ -51,7 +62,7 @@ export default {
       axios.get("/api/crud-get-all").then((res)=>
       {
         console.log(res);
-        this.data  = res;
+        this.data  = res.data;
         return this.data;
       })
       .catch(error =>{
@@ -71,8 +82,6 @@ export default {
       router.push({ name: 'delete_un_eleve' });
     }
   }
-
-
 }
 </script>
 
@@ -81,6 +90,26 @@ export default {
 
 
 
+
+
+
+
 <style scoped>
 
+
+
+/*Tableau centré*/
+.table-container {
+  display: flex;
+  justify-content: center;
+}
+
+
+
 </style>
+
+
+
+
+
+
