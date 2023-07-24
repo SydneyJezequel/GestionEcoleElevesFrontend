@@ -1,5 +1,5 @@
 <template>
-  <h2>{{titre}}</h2>
+  <h3>{{titre}}</h3>
 
   <form @submit="submitForm" method="post">
     <div>
@@ -43,17 +43,16 @@
 
 
 
-
 <script>
-// import axios from "axios";
-// import {parse, stringify} from "qs";
-
 import axios from "axios";
+import router from "@/router";
 
 export default {
   name: "ModifierUnEleve",
 
-  // Data chargées au chargement de la page :
+
+
+  // ******************************* Données *******************************
   data(){
     return{
       data: null,
@@ -71,7 +70,7 @@ export default {
       options1: [{text:'Gryfondor', value:'1'},{text:'Serdaigle', value:'2'},{text:'Poufsoufle', value:'3'},{text:'Serpentard', value:'4'}],
       // ********************** Liste dynamique : Non fonctionnelle **********************
       options:
-          axios.get('api/crud-get-maisons')
+          axios.get('/api/eleve/get-maisons')
               .then(response => {
                 console.log("response.data : "+response.data);
                 let arrayMaison;
@@ -88,8 +87,11 @@ export default {
   },
 
 
-  // Méthodes :
+
+  // ******************************* Méthodes *******************************
   methods:{
+
+    // Méthode 1 : Modifier un élève :
     submitForm(event) {
       event.preventDefault();
       console.log("eleve : "
@@ -100,26 +102,38 @@ export default {
       +this.eleve.nom
       +this.eleve.prenom
       );
-      axios.put('/api/crud-update-one', this.eleve)
+      axios.put('/api/eleve/update-one', this.eleve)
           .then(response => {
             console.log(response);
+            this.routageAfficherTousEleves();
           })
           .catch(error => {
             // Gestion des erreurs
             console.error(error);
           });
+    },
+
+    // Méthode 2 : Routage vers la page d'affichage de tous les élèves :
+    routageAfficherTousEleves:function()
+    {
+      router.push({ name: 'afficher_all_eleve' });
     }
+
+
   }
 }
 
 
 
+
+
+
 </script>
-
-
-
-
 
 <style scoped>
 
 </style>
+
+
+
+
