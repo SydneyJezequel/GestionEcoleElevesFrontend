@@ -8,6 +8,7 @@ import CreateDiscipline from "@/components/discipline/CreateDiscipline";
 import InscrireUnEleveAUneDiscipline from "@/components/eleveEtDiscipline/InscrireUnEleveAUneDiscipline";
 import ListeElevesCours from "@/components/eleveEtDiscipline/ListeElevesCours";
 import AjouterUneNote from "@/components/notes/AjouterUneNote";
+import DetailDesNotes from "@/components/notes/DetailDesNotes";
 
 
 
@@ -56,6 +57,11 @@ const routes = [
         path: '/ajouter_note',
         name:'ajouter_note',
         component: AjouterUneNote
+    },
+    {
+        path: '/details_notes',
+        name:'detail_notes',
+        component: DetailDesNotes
     }
 ];
 

@@ -15,13 +15,11 @@
 
 
 <script>
-// import HelloWorld from './components/HelloWorld.vue'
 import AccueilAppli from "@/components/AccueilAppli";
 
 export default {
   name: 'App',
   components: {
-    // HelloWorld,
     AccueilAppli
   }
 }

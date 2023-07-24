@@ -11,7 +11,8 @@
         <th>Prenom</th>
         <th>Maison</th>
         <th>Annee</th>
-        <th colspan="2">Actions</th>
+        <th>Moyenne Générale</th>
+        <th colspan="4">Actions</th>
       </tr>
       <tr v-for="item in data" v-bind:key="item.no_eleve">
         <td>{{ item.no_eleve }}</td>
@@ -19,10 +20,12 @@
         <td>{{ item.prenom }}</td>
         <td>{{ item.maison }}</td>
         <td>{{ item.annee }}</td>
-        <td><button @click="deleteEleve(item.no_eleve)">Supprimer</button></td>
+        <td>{{ item.moyenneGenerale }}</td>
         <td>
+          <button @click="deleteEleve(item.no_eleve)">Supprimer</button>
           <button @click="routageAfficherUpdate">Modifier</button>
           <button @click="routageAjouterUneDiscipline">Inscrire à un cours</button>
+          <button @click="routageDetailDesNotes">Afficher le détail des notes</button>
         </td>
       </tr>
     </table>
@@ -50,7 +53,8 @@ export default {
   data(){
     return{
       data: null,
-      titre:'Afficher tous les Elèves'
+      titre:'Afficher tous les Elèves',
+      moyenneGenerale: null
     };
   },
 
@@ -98,6 +102,12 @@ export default {
     {
       router.push({ name: 'inscrire_eleve_discipline' });
     },
+
+    // Méthode 5 : Routage vers la page de détail des notes :
+    routageDetailDesNotes:function ()
+    {
+      router.push({ name: 'detail_notes' })
+    }
 
 
   }
