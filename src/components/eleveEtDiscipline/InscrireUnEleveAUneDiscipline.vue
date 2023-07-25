@@ -37,6 +37,7 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import apiAxios from "@/service/apiAxios";
 
 export default {
   name: "InscrireUnEleveAUneDiscipline",
@@ -65,7 +66,7 @@ export default {
 
     // Méthode 1 : Charger la liste des cours :
     getAllDisciplines: function () {
-      axios.get("/api/discipline/get-all").then((response) => {
+      apiAxios.getAllDisciplines().then((response) => {
         this.listeDisciplines = response.data;
         console.log(this.listeDisciplines);
       })
@@ -77,7 +78,7 @@ export default {
 
     // Méthode 2 : Charger la liste des élèves :
     getAllEleves: function () {
-      axios.get("/api/eleve/get-all").then((response) => {
+      apiAxios.getAllEleves().then((response) => {
         this.listeEleves = response.data;
         console.log(this.listeEleves);
       })
@@ -95,7 +96,6 @@ export default {
       // Contrôle :
       console.log(this.eleveChoisi);
       console.log(this.disciplineChoisie);
-
       axios.post('/api/discipline/inscription/' + this.eleveChoisi+"/"+this.disciplineChoisie)
           .then(response => {
             console.log(response);

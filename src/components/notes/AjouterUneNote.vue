@@ -30,6 +30,7 @@
     <button type="submit">Ajouter</button>
   </form>
   <br>
+  <br>
 </template>
 
 
@@ -40,6 +41,7 @@
 <script>
 import axios from "axios";
 import router from "@/router";
+import apiAxios from "@/service/apiAxios";
 
 export default {
   name: "AjouterUneNote",
@@ -78,7 +80,7 @@ export default {
       axios.post('/api/eleve/ajout_note/'+this.eleveChoisi+"/"+this.disciplineChoisie+"/"+this.note)
           .then(response => {
             console.log(response);
-            this.routageAfficherTousEleves();
+            this.routageDetailDesNotes();
           })
           .catch(error => {
             // Gestion des erreurs
@@ -95,7 +97,7 @@ export default {
 
     // Méthode 3 : Charger la liste des cours :
     getAllDisciplines: function () {
-      axios.get("/api/discipline/get-all").then((response) => {
+      apiAxios.getAllDisciplines().then((response) => {
         this.listeDisciplines = response.data;
         console.log(this.listeDisciplines);
       })
@@ -106,7 +108,7 @@ export default {
 
     // Méthode 4 : Charger la liste des élèves :
     getAllEleves: function () {
-      axios.get("/api/eleve/get-all").then((response) => {
+      apiAxios.getAllEleves().then((response) => {
         this.listeEleves = response.data;
         console.log(this.listeEleves);
       })
@@ -116,10 +118,11 @@ export default {
     },
 
     // Méthode 5 : Routage vers la page d'affichage de tous les élèves :
-    routageAfficherTousEleves:function()
+    routageDetailDesNotes:function()
     {
-      router.push({ name: 'afficher_all_eleve' });
-    }
+      router.push({ name: 'detail_notes' });
+    },
+
 
   }
 

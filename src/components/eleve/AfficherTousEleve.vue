@@ -1,7 +1,5 @@
 <template>
   <h3>{{titre}}</h3>
-  <button @click="getAll">Charger la liste des élèves</button>
-  <br>
   <br>
   <div v-if="this.data!=null" class="table-container">
     <table>
@@ -40,8 +38,8 @@
 
 
 <script>
-import axios from "axios"
 import router from "@/router";
+import apiAxios from "@/service/apiAxios";
 
 export default {
   name: 'AccueilAppli',
@@ -52,8 +50,8 @@ export default {
   // ******************************* Données *******************************
   data(){
     return{
-      data: null,
-      titre:'Afficher tous les Elèves',
+      data: this.getAll(),
+      titre:'Liste des Elèves',
       moyenneGenerale: null
     };
   },
@@ -67,7 +65,7 @@ export default {
     // Méthode 1 : Affichage de tous les élèves
     getAll:function()
     {
-      axios.get("/api/eleve/get-all").then((res)=>
+      apiAxios.getAllEleves().then((res)=>
       {
         console.log(res);
         this.data  = res.data;
@@ -80,7 +78,7 @@ export default {
 
     // Méthode 2 : Supprimer un Elève :
     deleteEleve: function(no_eleve) {
-      axios.post('/api/eleve/delete-one/'+ no_eleve)
+      apiAxios.deleteEleve(no_eleve)
           .then(response => {
             console.log(response);
             this.getAll();

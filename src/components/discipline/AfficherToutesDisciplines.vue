@@ -1,7 +1,5 @@
 <template>
   <h3>{{titre}}</h3>
-  <button @click="getAll">Charger toutes les disciplines</button>
-  <br>
   <br>
   <div v-if="this.data!=null" class="table-container">
     <table>
@@ -26,9 +24,6 @@
     </table>
   </div>
   <br>
-  <div>
-    <button @click="routageAjouterUneDiscipline">Ajouter une discipline</button>
-  </div>
   <br>
   <br>
 </template>
@@ -39,8 +34,8 @@
 
 
 <script>
-import axios from "axios";
 import router from "@/router";
+import apiAxios from "@/service/apiAxios";
 
 
 
@@ -52,7 +47,7 @@ export default {
   // ******************************* Données *******************************
   data() {
     return {
-      data: null,
+      data: this.getAll(),
       titre: 'Liste des disciplines'
     };
   },
@@ -64,7 +59,7 @@ export default {
 
     // Méthode 1 : Afficher les disciplines :
     getAll: function () {
-      axios.get("/api/discipline/get-all").then((res) => {
+      apiAxios.getAllDisciplines().then((res) => {
         console.log(res);
         this.data = res.data;
         return this.data;
@@ -76,7 +71,7 @@ export default {
 
     // Méthode 2 : Supprimer une discipline :
     deleteDiscipline: function(id) {
-      axios.post('/api/discipline/delete-one/'+ id)
+      apiAxios.deleteDiscipline(id)
           .then(response => {
             console.log(response);
             this.getAll();
@@ -98,13 +93,6 @@ export default {
     {
       router.push({ name: 'inscrire_eleve_discipline' });
     },
-
-    // Méthode 5 :
-    routageAjouterUneDiscipline:function()
-    {
-      router.push({ name: 'create_discipline' });
-    },
-
 
 
 

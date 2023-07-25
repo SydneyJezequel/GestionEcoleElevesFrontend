@@ -33,7 +33,7 @@
 
 
 <script>
-import axios from "axios";
+import apiAxios from "@/service/apiAxios";
 
 export default {
 name: "ListeElevesCours",
@@ -56,7 +56,7 @@ methods: {
 
   // Méthode 1 : Affichage des cours avec les élève qui y assistent :
   getAll: function () {
-    axios.get("/api/discipline/get-all").then((res) => {
+    apiAxios.getAllDisciplines().then((res) => {
       console.log(res);
       this.data = res.data;
       return this.data;

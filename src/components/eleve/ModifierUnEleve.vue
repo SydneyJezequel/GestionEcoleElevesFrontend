@@ -8,8 +8,8 @@
     </div>
     <label for="maison">liste maison :</label>
     <select v-model="eleve.maison">
-      <option v-for="option in options1" v-bind:key="option.value">
-        {{ option.text }}
+      <option v-for="maison in listeMaison" v-bind:key="maison.value">
+        {{ maison }}
       </option>
     </select>
     <!--
@@ -66,23 +66,8 @@ export default {
         prenom: null,
         maison: null,
       },
-      // Liste non dynamique temporaire :
-      options1: [{text:'Gryfondor', value:'1'},{text:'Serdaigle', value:'2'},{text:'Poufsoufle', value:'3'},{text:'Serpentard', value:'4'}],
-      // ********************** Liste dynamique : Non fonctionnelle **********************
-      options:
-          axios.get('/api/eleve/get-maisons')
-              .then(response => {
-                console.log("response.data : "+response.data);
-                let arrayMaison;
-                arrayMaison = response.data;
-                console.log("variable arrayMaison : "+arrayMaison);
-                return arrayMaison;
-              })
-              .catch(error => {
-                // Gestion des erreurs
-                console.error(error);
-              }),
-      // ********************** Liste dynamique : Non fonctionnelle **********************
+      listeMaison: this.getListeMaisons(),
+
     };
   },
 
@@ -113,7 +98,21 @@ export default {
           });
     },
 
-    // Méthode 2 : Routage vers la page d'affichage de tous les élèves :
+    // Méthode 2 : Chargement de la liste dynamique des maisons :
+    getListeMaisons: function () {
+      axios.get('/api/eleve/get-maisons')
+          .then(response => {
+            console.log("response.data : " + response.data);
+            this.listeMaison = response.data;
+            console.log("response.data : " + response.data + "liste des maisons : " + this.listeMaison);
+          })
+          .catch(error => {
+            // Gestion des erreurs
+            console.error(error);
+          })
+    },
+
+    // Méthode 3 : Routage vers la page d'affichage de tous les élèves :
     routageAfficherTousEleves:function()
     {
       router.push({ name: 'afficher_all_eleve' });
